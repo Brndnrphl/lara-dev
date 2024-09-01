@@ -1,4 +1,3 @@
-{ config, pkgs, inputs, system, ... }:
 {
   description = "A simple NixOS flake";
 
@@ -8,10 +7,18 @@
     phps.url = "github:loophp/nix-shell";
   };
 
-  pkgs = import inputs.nixpkgs {
-    inherit system;
-    overlays = [
-        inputs.phps.overlays.default
-    ];
-  };
+  outputs = { self, nixpkgs, flake-utils, phps }:
+    flake-utils.lib.eachDefaultSystem (system:
+    let
+      pkgs = import nixpkgs {
+        inherit system;
+        overlays = [ phps.overlays.default ];
+      };
+    in {
+      devShell = pkgs.mkShell {
+        buildInputs = [
+          pkgs.php
+        ];
+      };
+    });
 }
