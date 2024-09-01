@@ -17,7 +17,7 @@
     in {
       devShell = pkgs.mkShell {
         buildInputs = [
-          pkgs.php
+          pkgs.nodejs
         ];
       };
     });
