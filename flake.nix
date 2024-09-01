@@ -1,3 +1,4 @@
+{ config, pkgs, inputs, ... }:
 {
   description = "A simple NixOS flake";
 
