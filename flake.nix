@@ -20,6 +20,7 @@
           packages = with pkgs; [ nodejs_22 php83 php83Packages.composer ];
 
           shellHook = ''
+            export PHP_HOME=$(dirname $(readlink -f $(which php)))
             export SHELL=$(which zsh)
             exec zsh
           '';
