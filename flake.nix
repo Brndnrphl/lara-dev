@@ -14,15 +14,15 @@
         pkgs = import nixpkgs {
           inherit system;
           overlays = [
-            phps.overlays.default
+            phps.overlay
           ];
-          };
+        };
       });
     in
     {
       devShells = forEachSupportedSystem ({ pkgs }: {
         default = pkgs.mkShell {
-          packages = with pkgs; [ nodejs_22 env-php81 ];
+          packages = with pkgs; [ nodejs_22 pkgs.env-php83 ];
         };
       });
     };
