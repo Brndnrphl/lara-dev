@@ -3,8 +3,6 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
-    flake-utils.url = "github:numtide/flake-utils";
-    phps.url = "github:loophp/nix-shell";
   };
 
   outputs = { self, nixpkgs, flake-utils, phps }:
@@ -13,16 +11,13 @@
       forEachSupportedSystem = f: nixpkgs.lib.genAttrs supportedSystems (system: f {
         pkgs = import nixpkgs {
           inherit system;
-          overlays = [
-            phps.overlays.default
-          ];
         };
       });
     in
     {
       devShells = forEachSupportedSystem ({ pkgs }: {
         default = pkgs.mkShell {
-          packages = with pkgs; [ nodejs_22 pkgs.env-php83 ];
+          packages = with pkgs; [ nodejs_22 php83 php83Packages.composer ];
         };
       });
     };
