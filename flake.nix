@@ -1,24 +1,20 @@
 {
-  description = "A simple NixOS flake";
+  description = "A Nix-flake-based PHP development environment";
 
-  inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
-    flake-utils.url = "github:numtide/flake-utils";
-    phps.url = "github:loophp/nix-shell";
-  };
+  inputs.nixpkgs.url = "https://flakehub.com/f/NixOS/nixpkgs/0.1.*.tar.gz";
 
-  outputs = { self, nixpkgs, flake-utils, phps }:
-    flake-utils.lib.eachDefaultSystem (system:
+  outputs = { self, nixpkgs }:
     let
-      pkgs = import nixpkgs {
-        inherit system;
-        overlays = [ phps.overlays.default ];
-      };
-    in {
-      devShell = pkgs.mkShell {
+      supportedSystems = [ "x86_64-linux" "aarch64-linux" "x86_64-darwin" "aarch64-darwin" ];
+      forEachSupportedSystem = f: nixpkgs.lib.genAttrs supportedSystems (system: f {
+        pkgs = import nixpkgs { inherit system; };
+      });
+    in
+    {
+      devShells = forEachSupportedSystem ({ pkgs }: {
         default = pkgs.mkShell {
-          packages = with pkgs; [ nodejs ];
+          packages = with pkgs; [ php phpPackages.composer ];
         };
-      };
-    });
+      });
+    };
 }
