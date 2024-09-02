@@ -14,7 +14,7 @@
         pkgs = import nixpkgs {
           inherit system;
           overlays = [
-            phps.overlay
+            phps.overlays.default
           ];
         };
       });
