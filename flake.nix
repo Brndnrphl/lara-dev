@@ -18,6 +18,11 @@
       devShells = forEachSupportedSystem ({ pkgs }: {
         default = pkgs.mkShell {
           packages = with pkgs; [ nodejs_22 php83 php83Packages.composer ];
+
+          shellHook = ''
+            export SHELL=$(which zsh)
+            exec zsh
+          '';
         };
       });
     };
