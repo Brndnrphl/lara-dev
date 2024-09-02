@@ -1,7 +1,11 @@
 {
   description = "A Nix-flake-based PHP development environment";
 
-  inputs.nixpkgs.url = "https://flakehub.com/f/NixOS/nixpkgs/0.1.*.tar.gz";
+  inputs = {
+    nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
+    flake-utils.url = "github:numtide/flake-utils";
+    phps.url = "github:loophp/nix-shell";
+  };
 
   outputs = { self, nixpkgs }:
     let
