@@ -22,7 +22,7 @@
     {
       devShells = forEachSupportedSystem ({ pkgs }: {
         default = pkgs.mkShell {
-          packages = with pkgs; [ nodejs_22 pkgs.env-php83 ];
+          packages = with pkgs; [ nodejs_22 ];
         };
       });
     };
